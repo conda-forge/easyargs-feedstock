@@ -5,24 +5,27 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/e/easyargs/easyargs-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/e/easyargs/easyargs-{{ version }}.tar.gz
   sha256: cc5638e2ca63183c9efb2b60d88c9ed1c1e338d41df45492dad078db4400aeb1
 
 build:
-  number: 0
+  number: 1
   noarch: python
-  script: python -m pip install --no-deps --ignore-installed .
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
-    - python
+    - python {{ python_min }}
+    - setuptools
     - pip
     - six
   run:
-    - python
+    - python >={{ python_min }}
     - six
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - easyargs
 
